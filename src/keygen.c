@@ -38,8 +38,6 @@ void print_help() {
 int main(int argc, char **argv) {
 
     // set default path to rsa.pub and rsa.priv
-    // credit to Eugene for showing us this trick to specify the path for rsa.pub and rsa.priv
-    // in section (11/16)
     char *pubpath = "rsa.pub";
     char *privpath = "rsa.priv";
 
