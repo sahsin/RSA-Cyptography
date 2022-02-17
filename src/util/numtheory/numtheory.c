@@ -7,22 +7,10 @@
 #include "randstate.h"
 #include "numtheory.h"
 
-// All the function implementation are based on assignment 6 documentation's pseudocode.
-// Proper credit for assignment pseudocode belongs to Professor Long and Eugene Chou.
-// For is_prime, my code is also based on Eric's section note on 11/10
-// Base case consideration for Miller Rabin (is_prime) was based on
-// Professor Darrell Long's Github: "Public-key-Crytography-in-Python"
-// prime.py where since Miller Rabin start with bound
-// of ( 2 - (n - 2)) so it fail number from 0 to 4. As a result, we need to "hardcode"
-// these 4 cases to ensure these numbers work properly.
 
 gmp_randstate_t state; // init state here in case
 
-// Your last argument/function should be null terminate
-// you end should be cleared
-// Compute the greatest commom divisor of a and b and store computed divisor in g
-// Jason (tutor) tell me to check the gcd and tell me to create temp variable for a and b
-// so it doesn't get overwritten
+// Greatest common divisor
 void gcd(mpz_t d, mpz_t a, mpz_t b) {
     mpz_t t, temp_a, temp_b, amodb;
     mpz_inits(t, temp_a, temp_b, amodb, NULL);
@@ -126,8 +114,7 @@ void pow_mod(mpz_t out, mpz_t base, mpz_t exponent, mpz_t modulus) {
     mpz_clear(d);
 }
 
-// Based partially on Eric's (tutor) psedudocode example from section note.
-// Miles (tutor) told us to use temp variable to prevent things like power mod from getting overwritten.
+// check if num is prime
 bool is_prime(mpz_t n, uint64_t iters) {
     mpz_t r, a, nminuso, y, j, bound, two; // for r and s value in miller rabin
     mpz_inits(r, a, nminuso, y, j, bound, two, NULL); // init
@@ -191,7 +178,7 @@ bool is_prime(mpz_t n, uint64_t iters) {
     return true;
 }
 
-// Based on Eric's pseudocode from (11/10/2021)
+// Generate prime number
 void make_prime(mpz_t p, uint64_t bits, uint64_t iters) {
     do {
         mpz_urandomb(p, state, bits);
