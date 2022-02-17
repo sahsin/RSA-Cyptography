@@ -11,29 +11,19 @@
 #include "randstate.h"
 #include "rsa.h"
 
-// Specification regarding how to implement RSA was based on assignment 6's documentation
-// rsa make pub was based on eric's psedudocode from section (11/10)
+// Make public key
 void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t iters) {
     // create and init variables
     mpz_t p_minus, q_minus, gcd_e, temp_n;
     mpz_inits(p_minus, q_minus, gcd_e, temp_n, NULL);
-
-    // credit to Eugene to tell us to check if n is equals to nbits during
-    // section (11/16/2021) using sizeinbit (which is log2 base)
-    // this help fixed my nbits problem
-
-    // random bound was reference from assignment 1 (pass the pig) useing modulo and numtheory.c to shift the bound
-    // I was also reminded on how to use it on ed #515 (https://edstem.org/us/courses/14178/discussion/844628)
-    // by TA Omar.
+    
     do {
 
         // Set up num for upper and lower bound
         uint64_t lower = (nbits / 4);
         uint64_t upper = ((3 * nbits) / 4);
 
-        // set up bits bound first
-        // random() % range (which is from n/4 to ((3*nbits)/4) + 1) --> (0, 3*nbits/4 inclusive)
-        // And then apply offset so it can start at (nbits/4);
+        // set up bits bound 
         uint64_t pbits = lower + (random() % (upper - lower + 1)); // nbits/4,(3 * nbits)/4)
         uint64_t qbits = nbits - pbits; // the rest into q bits
 
@@ -74,8 +64,7 @@ void rsa_write_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
     return;
 }
 
-// I overthinked this and read_private. You are literally just using fscanf for this
-// Thanks to tutor Brian and Jason for confirming
+// Read public key 
 void rsa_read_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
 
     // read in n, e, s and user
@@ -176,8 +165,6 @@ void rsa_decrypt(mpz_t m, mpz_t c, mpz_t d, mpz_t n) {
     return;
 }
 
-// Credit to Eugene (11/18) for going over decrypt file and I was able to fix my issue by changing the while loop
-// condition.
 // decrypt the file
 void rsa_decrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t d) {
     // for storing scanned in file
