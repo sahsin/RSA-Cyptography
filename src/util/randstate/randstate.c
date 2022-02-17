@@ -6,9 +6,6 @@
 
 #include "randstate.h"
 
-// specification regarding how to implement the randstate was based on
-// assignment 6's document.
-
 gmp_randstate_t state; // init state
 
 void randstate_init(uint64_t seed) {
